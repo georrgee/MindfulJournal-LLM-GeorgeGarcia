@@ -1,20 +1,55 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { TamaguiProvider, YStack, Text, H1, Button, XStack } from 'tamagui';
+import { ThemeProvider } from './providers';
+import { useTheme } from './hooks';
+import config from './tamagui.config';
+
+
+export const ThemeToggle: React.FC = () => {
+  const { theme, toggleTheme } = useTheme()
+
+  return (
+    <XStack space="$2" alignItems="center">
+      <Text>Theme: {theme}</Text>
+      <Button
+        onPress={toggleTheme}
+        backgroundColor="$backgroundHover"
+        borderColor="$borderColor"
+        color="$color"
+      >
+        Switch to {theme === 'light' ? 'Dark' : 'Light'}
+      </Button>
+    </XStack>
+  )
+}
+
+function AppContent() {
+
+  const { theme } = useTheme()
+
+  return (
+    <YStack
+      flex={1}
+      backgroundColor="$background"
+      alignItems="center"
+      justifyContent="center"
+      space="$4"
+      padding="$4">
+      <H1 color="$color">Mindful Journal</H1>
+      <Text color="$color">Welcome to your mindful journaling app!</Text>
+      <ThemeToggle />
+      <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
+    </YStack>
+  )
+}
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <TamaguiProvider config={config}>
+      <ThemeProvider>
+        <AppContent />
+      </ThemeProvider>
+    </TamaguiProvider>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
