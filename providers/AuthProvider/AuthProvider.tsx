@@ -22,7 +22,6 @@ const AuthProvider: React.FC<AuthProviderProps>= ({ children }) => {
   const [error, setError]                   = useState<string | null>(null);
 
   // * MARK - (useEffects) Component Life Cycles
-
   useEffect(() => {
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -41,7 +40,6 @@ const AuthProvider: React.FC<AuthProviderProps>= ({ children }) => {
   }, []);
 
   // * MARK - Functions
-
   const clearError = () => setError(null);
 
   const handleAuthError = (error: any) => {
@@ -124,7 +122,6 @@ const AuthProvider: React.FC<AuthProviderProps>= ({ children }) => {
     }
   };
 
-
   const handleResendEmailVerification = async () => {
     
     try {
@@ -156,6 +153,7 @@ const AuthProvider: React.FC<AuthProviderProps>= ({ children }) => {
     clearError,
   };
 
+  // * MARK - Main
   return (
     <AuthContext.Provider value={value}>
       {children}

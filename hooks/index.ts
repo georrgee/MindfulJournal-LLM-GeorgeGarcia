@@ -1,1 +1,7 @@
-export * from './ui/index';
+import { useAuth } from "./useAuth";
+import { useTheme } from "./ui";
+
+export {
+  useAuth,
+  useTheme
+}

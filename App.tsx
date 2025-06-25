@@ -1,7 +1,7 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { TamaguiProvider, YStack, Text, H1, Button, XStack } from 'tamagui';
-import { ThemeProvider } from './providers';
+import { ThemeProvider, AuthProvider } from './providers';
 import { useTheme } from './hooks';
 import config from './tamagui.config';
 
@@ -47,9 +47,11 @@ function AppContent() {
 export default function App() {
   return (
     <TamaguiProvider config={config}>
-      <ThemeProvider>
-        <AppContent />
-      </ThemeProvider>
+      <AuthProvider>
+        <ThemeProvider>
+          <AppContent />
+        </ThemeProvider>
+      </AuthProvider>
     </TamaguiProvider>
   )
 }
