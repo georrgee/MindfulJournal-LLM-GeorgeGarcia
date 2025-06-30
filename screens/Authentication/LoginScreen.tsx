@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
-import {
-  YStack,
-  XStack,
+import { 
+  View,
   Text,
-  H1,
-  Input,
+  TextInput,
   Button,
-  Spinner,
-  Card,
-  Form,
-  Label,
-  Separator,
-} from 'tamagui';
-import { Alert, KeyboardAvoidingView, Platform } from 'react-native';
+  ActivityIndicator,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  Alert
+} from 'react-native';
 import { FormInput, UniversalButton } from '../../components/atoms';
 
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../hooks';
 import { useFormValidation } from '../../hooks/ui/useFormValidation';
 
 /**
@@ -71,33 +68,18 @@ const LoginScreen: React.FC = () => {
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <YStack
-        flex={1}
-        backgroundColor="$background"
-        padding="$4"
-        justifyContent="center"
-        space="$4">
-      {/*
-        <YStack alignItems="center" space="$2">
-          <H1 color="$color" textAlign="center">
-            Welcome Back
-          </H1>
-          <Text color="$colorPress" textAlign="center">
-            Sign in to continue your mindful journey
-          </Text>
-        </YStack> */}
+      <View style={styles.container}>
+      
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Welcome Back</Text>
+          <Text style={styles.subtitle}>Sign in to continue your mindful journey</Text>
+        </View>
 
-        {/* <Card
-          elevate
-          size="$4"
-          bordered
-          backgroundColor="$backgroundHover"
-          padding="$4">
-
-          <Form onSubmit={handleLogin}>
+        <View style={styles.card}>
+          <View>
             <FormInput
               label="Email Address"
-              labelColor="$color"
+              labelColor="black"
               id="email"
               placeholder="george@mindful.com"
               value={formData.email}
@@ -105,9 +87,10 @@ const LoginScreen: React.FC = () => {
               keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
-              borderColor={errors.email ? '$red10' : '$borderColor'}
-              backgroundColor="$background"
-              color="$color" />
+              // borderCostylor={errors.email ? 'red' : 'gray'}
+              // backgroundColor="white"
+              // color="black" 
+              />
 
             <FormInput
               id="password"
@@ -119,19 +102,12 @@ const LoginScreen: React.FC = () => {
               error={errors.password}
               showPasswordToggle={true} />
 
-            {/* Auth Error Display
             {error && (
-              <YStack
-                backgroundColor="$red2"
-                padding="$3"
-                borderRadius="$4"
-                borderWidth={1}
-                borderColor="$red7"
-              >
-                <Text color="$red11" textAlign="center">
+              <View style={styles.errorContainer}>
+                <Text style={styles.errorText}>
                   {error}
                 </Text>
-              </YStack>
+              </View>
             )}
 
             <UniversalButton
@@ -140,28 +116,63 @@ const LoginScreen: React.FC = () => {
               loadingText='Signing In...'>
               Login
             </UniversalButton>
-          </Form>
+          </View>
+        </View>
 
-        </Card> */}
-
-
-        {/* Sign Up Link */}
-        {/* <YStack alignItems="center" space="$2">
-          <Text color="$colorPress">Don't have an account?</Text>
+        <View style={styles.signupContainer}>
+          <Text>Don't have an account?</Text>
           <Button
-            variant="outlined"
-            size="$3"
-            backgroundColor="transparent"
-            borderColor="$green8">
-            <Text color="$green10" fontWeight="600">
-              Create Account
-            </Text>
-          </Button>
-        </YStack> */}
+            title="Create Account"
+            onPress={() => {}}
+          />
+        </View>
         
-      </YStack>
+      </View>
     </KeyboardAvoidingView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    padding: 16,
+    justifyContent: 'center',
+  },
+  titleContainer: {
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  subtitle: {
+    textAlign: 'center',
+    color: 'gray',
+  },
+  card: {
+    backgroundColor: '#f0f0f0',
+    padding: 16,
+    borderRadius: 8,
+  },
+  errorContainer: {
+    backgroundColor: '#ffcccc',
+    padding: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: 'red',
+    marginBottom: 12,
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+  },
+  signupContainer: {
+    alignItems: 'center',
+    marginTop: 16,
+  },
+});
 
 export default LoginScreen;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { YStack, XStack, Input, Label, Text, Button } from 'tamagui';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { FormInputProps } from './types';
 /**
  * @author George Garcia
@@ -17,6 +17,7 @@ import { FormInputProps } from './types';
  * @param { TextInputProps } inputProps The input props of the input
  * @description
  */
+
 const FormInput: React.FC<FormInputProps> = (props) => {
 
   // * MARK - Props 
@@ -30,8 +31,8 @@ const FormInput: React.FC<FormInputProps> = (props) => {
     placeholder,
     required = false,
     containerProps,
-    labelColor = '$color',
-    errorColor = '$red10',
+    labelColor = '#000000',
+    errorColor = '#ff0000',
     id,
     ...inputProps
   } = props;
@@ -39,7 +40,7 @@ const FormInput: React.FC<FormInputProps> = (props) => {
   // * MARK - Variables & Hooks
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const isPasswordType   = inputType === 'password';
+  const isPasswordType = inputType === 'password';
   const shouldShowToggle = isPasswordType && showPasswordToggle;
 
   // * MARK - Functions 
@@ -57,98 +58,85 @@ const FormInput: React.FC<FormInputProps> = (props) => {
           autoCapitalize: 'none' as const,
           autoCorrect: false,
         };
-      case 'number':
-        return {
-          keyboardType: 'numeric' as const,
-        };
-      case 'phone':
-        return {
-          keyboardType: 'phone-pad' as const,
-        };
       default:
         return {};
     }
   };
 
-  // * MARK - UI Functions
-  const renderInputLabelTitle = () => {
-    return (
-      <Label htmlFor={id} color={labelColor}>
-        {label}
-        {/* { required && <Text color={errorColor}> *</Text> } */}
-      </Label>
-    )
-  };
-
-  const renderInputWithToggle = () => {
-    return (
-      <XStack space="$2" alignItems="center">
-        <Input
-          id={id}
-          flex={1}
-          placeholder={placeholder}
-          value={value}
-          onChangeText={onChangeText}
-          borderColor={error ? errorColor : '$borderColor'}
-          backgroundColor="$background"
-          color="$color"
-          {...getInputTypeProps}
-          {...inputProps} />
-        <Button
-          size="$3"
-          variant="outlined"
-          onPress={() => setShowPassword(!showPassword)}
-          backgroundColor="$backgroundHover">
-          <Text color="$color">
-            {showPassword ? '👁️' : '👁️‍🗨️'}
-          </Text>
-        </Button>
-      </XStack>
-    )
-  };
-
-  const renderErrorMessage = () => {
-    return (
-      <Text color={errorColor} fontSize="$2">{error}</Text>
-    )
-  };
-
-  // * MARK - Main
   return (
-    <YStack space="$2" {...containerProps}>
-      { label && renderInputLabelTitle() }
-      { shouldShowToggle ? renderInputWithToggle() : 
-        <Input
-          id={id}
-          placeholder={placeholder}
+    <View style={[styles.container, containerProps?.style]}>
+      {label && (
+        <Text style={[styles.label, { color: labelColor }]}>
+          {label}{required && ' *'}
+        </Text>
+      )}
+
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={[styles.input, error && styles.inputError]}
           value={value}
           onChangeText={onChangeText}
-          borderColor={error ? errorColor : '$borderColor'}
-          backgroundColor="$background"
-          color="$color"
-          {...getInputTypeProps}
-          {...inputProps} />
-      }
-      { error && renderErrorMessage() }
-    </YStack>
-  )
+          placeholder={placeholder}
+          {...getInputTypeProps()}
+          {...inputProps}
+        />
+
+        {shouldShowToggle && (
+          <TouchableOpacity
+            style={styles.toggleButton}
+            onPress={() => setShowPassword(!showPassword)}
+          >
+            <Text style={styles.toggleText}>
+              {showPassword ? '👁️' : '👁️‍🗨️'}
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
+
+      {error && (
+        <Text style={[styles.errorText, { color: errorColor }]}>
+          {error}
+        </Text>
+      )}
+    </View>
+  );
 };
 
-export default FormInput;
+const styles = StyleSheet.create({
+  container: {
+    marginBottom: 16,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 8,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+    borderRadius: 8,
+    backgroundColor: '#ffffff',
+  },
+  input: {
+    flex: 1,
+    padding: 12,
+    fontSize: 16,
+  },
+  inputError: {
+    borderColor: '#ff0000',
+  },
+  toggleButton: {
+    padding: 12,
+  },
+  toggleText: {
+    fontSize: 16,
+  },
+  errorText: {
+    fontSize: 14,
+    marginTop: 4,
+  },
+});
 
-/**
- * EXAMPLE:
- * <FormatInput 
- *    id={id}
- *    label="Email"
- *    value={email}
- *    onChangeText={setEmail}
- *    error={emailError}
- *    inputType="email"
- *    placeholder="george@mindful.com"
- *    required
- *    containerProps={{space: 2 }}
- *    labelColor="$red10"
- *    errorColor="$red10" />
- * 
- */
+export default FormInput;

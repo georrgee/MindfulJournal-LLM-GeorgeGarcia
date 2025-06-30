@@ -1,19 +1,9 @@
 import React, { useState } from 'react';
-import {
-  YStack,
-  XStack,
-  Text,
-  H1,
-  Input,
-  Button,
-  Spinner,
-  Card,
-  Form,
-  Label,
-  Separator,
-  ScrollView,
-} from 'tamagui';
-import { Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+
+import { LinearGradient } from 'expo-linear-gradient';
+import { FormInput, UniversalButton } from '../../components/atoms';
+
 import { useAuth } from '../../hooks/useAuth';
 import { useFormValidation } from '../../hooks/ui/useFormValidation';
 
@@ -88,230 +78,98 @@ const RegistrationScreen: React.FC = () => {
 
   if (registrationSuccess) {
     return (
-      <YStack
-        flex={1}
-        backgroundColor="$background"
-        padding="$4"
-        justifyContent="center"
-        alignItems="center"
-        space="$4"
-      >
-        <YStack alignItems="center" space="$4">
-          <Text fontSize="$8">✅</Text>
-          <H1 color="$color" textAlign="center">
+      <View>
+        <View>
+          <Text>✅</Text>
+          <Text>
             Check Your Email
-          </H1>
-          <Text color="$colorPress" textAlign="center" maxWidth={300}>
+          </Text>
+          <Text>
             We've sent a verification link to {formData.email}. Please verify your email before signing in.
           </Text>
-        </YStack>
+        </View>
 
-        <Button
-          size="$4"
-          backgroundColor="$blue10"
-          color="white"
-          onPress={() => setRegistrationSuccess(false)}
-        >
-          <Text color="white" fontWeight="600">
+        <TouchableOpacity onPress={() => setRegistrationSuccess(false)}>
+          <Text>
             Back to Sign In
           </Text>
-        </Button>
-      </YStack>
+        </TouchableOpacity>
+      </View>
     );
   }
 
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <ScrollView
-        flex={1}
-        backgroundColor="$background"
-        contentContainerStyle={{ flexGrow: 1 }}
-      >
-        <YStack
-          flex={1}
-          padding="$4"
-          justifyContent="center"
-          space="$4"
-        >
-          <YStack alignItems="center" space="$2">
-            <H1 color="$color" textAlign="center">
-              Create Account
-            </H1>
-            <Text color="$colorPress" textAlign="center">
-              Start your mindful journaling journey
-            </Text>
-          </YStack>
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 
-          <Card
-            elevate
-            size="$4"
-            bordered
-            backgroundColor="$backgroundHover"
-            padding="$4"
-          >
-            <Form onSubmit={handleRegistration}>
-              <YStack space="$4">
-                {/* Email Input */}
-                <YStack space="$2">
-                  <Label htmlFor="email" color="$color">
-                    Email Address
-                  </Label>
-                  <Input
-                    id="email"
-                    placeholder="Enter your email"
-                    value={formData.email}
-                    onChangeText={(text) => handleInputChange('email', text)}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    borderColor={errors.email ? '$red10' : '$borderColor'}
-                    backgroundColor="$background"
-                    color="$color"
-                  />
-                  {errors.email && (
-                    <Text color="$red10" fontSize="$2">
-                      {errors.email}
-                    </Text>
-                  )}
-                </YStack>
+      <LinearGradient
+        colors={['#0e162a', '#121835', '#0e162a']}
+        style={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          left: 0,
+          bottom: 0
+        }} />
+        
+      <ScrollView contentContainerStyle={{ flexGrow: 1, width: '100%', alignItems: 'center' }}>
 
-                {/* Password Input */}
-                <YStack space="$2">
-                  <Label htmlFor="password" color="$color">
-                    Password
-                  </Label>
-                  <XStack space="$2" alignItems="center">
-                    <Input
-                      id="password"
-                      flex={1}
-                      placeholder="Create a password"
-                      value={formData.password}
-                      onChangeText={(text) => handleInputChange('password', text)}
-                      secureTextEntry={!showPassword}
-                      borderColor={errors.password ? '$red10' : '$borderColor'}
-                      backgroundColor="$background"
-                      color="$color"
-                    />
-                    <Button
-                      size="$3"
-                      variant="outlined"
-                      onPress={() => setShowPassword(!showPassword)}
-                      backgroundColor="$backgroundHover"
-                    >
-                      <Text color="$color">
-                        {showPassword ? '👁️' : '👁️‍🗨️'}
-                      </Text>
-                    </Button>
-                  </XStack>
+        <View>
 
-                  {/* Password Strength Indicator */}
-                  <XStack space="$2" alignItems="center">
-                    <Text color={getPasswordStrengthColor()} fontSize="$2">
-                      {getPasswordStrengthText()}
-                    </Text>
-                  </XStack>
+          <View>
+            <Text>Let's get started</Text>
+            <Text>Fill the forms to create an account</Text>
+          </View>
 
-                  {errors.password && (
-                    <Text color="$red10" fontSize="$2">
-                      {errors.password}
-                    </Text>
-                  )}
-                </YStack>
+        </View>
 
-                {/* Confirm Password Input */}
-                <YStack space="$2">
-                  <Label htmlFor="confirmPassword" color="$color">
-                    Confirm Password
-                  </Label>
-                  <XStack space="$2" alignItems="center">
-                    <Input
-                      id="confirmPassword"
-                      flex={1}
-                      placeholder="Confirm your password"
-                      value={formData.confirmPassword}
-                      onChangeText={(text) => handleInputChange('confirmPassword', text)}
-                      secureTextEntry={!showConfirmPassword}
-                      borderColor={errors.confirmPassword ? '$red10' : '$borderColor'}
-                      backgroundColor="$background"
-                      color="$color"
-                    />
-                    <Button
-                      size="$3"
-                      variant="outlined"
-                      onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-                      backgroundColor="$backgroundHover"
-                    >
-                      <Text color="$color">
-                        {showConfirmPassword ? '👁️' : '👁️‍🗨️'}
-                      </Text>
-                    </Button>
-                  </XStack>
-                  {errors.confirmPassword && (
-                    <Text color="$red10" fontSize="$2">
-                      {errors.confirmPassword}
-                    </Text>
-                  )}
-                </YStack>
+        <View>
+          <FormInput 
+            label="Your email address"
+            labelColor='white'
+            placeholder="george@mindful.com"
+            value={formData.email}
+            onChangeText={(text) => handleInputChange('email', text)}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
+            // borderColor={errors.email ? '$red10' : '$borderColor'}
+            // backgroundColor="$background"
+            // color="$color" 
+            />
 
-                {/* Auth Error Display */}
-                {error && (
-                  <YStack
-                    backgroundColor="$red2"
-                    padding="$3"
-                    borderRadius="$4"
-                    borderWidth={1}
-                    borderColor="$red7"
-                  >
-                    <Text color="$red11" textAlign="center">
-                      {error}
-                    </Text>
-                  </YStack>
-                )}
+          <FormInput 
+            label="Password"
+            labelColor='white'
+            placeholder="min. 6 characters"
+            value={formData.password}
+            onChangeText={(text) => handleInputChange('password', text)}
+            secureTextEntry={!showPassword}
+            // borderColor={errors.password ? '$red10' : '$borderColor'}
+            // backgroundColor="$background"
+            // size={'$5'}
+            // color="$color" 
+            />
 
-                {/* Registration Button */}
-                <Button
-                  size="$4"
-                  backgroundColor="$green10"
-                  color="white"
-                  onPress={handleRegistration}
-                  disabled={isLoading}
-                  opacity={isLoading ? 0.7 : 1}
-                >
-                  {isLoading ? (
-                    <XStack space="$2" alignItems="center">
-                      <Spinner size="small" color="white" />
-                      <Text color="white">Creating Account...</Text>
-                    </XStack>
-                  ) : (
-                    <Text color="white" fontWeight="600">
-                      Create Account
-                    </Text>
-                  )}
-                </Button>
-              </YStack>
-            </Form>
-          </Card>
+        </View>
 
-          <Separator />
+        <View>
 
-          {/* Sign In Link */}
-          <YStack alignItems="center" space="$2">
-            <Text color="$colorPress">Already have an account?</Text>
-            <Button
-              variant="outlined"
-              size="$3"
-              backgroundColor="transparent"
-              borderColor="$blue8"
-            >
-              <Text color="$blue10" fontWeight="600">
-                Sign In
-              </Text>
-            </Button>
-          </YStack>
-        </YStack>
+          <View>
+
+            <UniversalButton>
+              Sign up
+            </UniversalButton>
+
+            <Text>OR</Text>
+
+            <UniversalButton>
+              Sign up with Google
+            </UniversalButton>
+
+          </View>
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );

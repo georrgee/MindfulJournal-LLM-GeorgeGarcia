@@ -11,13 +11,6 @@ module.exports = function (api) {
           path: ".env",
         },
       ],
-      [
-        "@tamagui/babel-plugin",
-        {
-          components: ["@tamagui/core"],
-          config: "./tamagui.config.ts",
-        },
-      ],
     ],
   };
 };

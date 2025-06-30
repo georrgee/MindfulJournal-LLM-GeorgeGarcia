@@ -1,5 +1,5 @@
 import React from "react";
-import { YStack, H3, Image } from 'tamagui';
+import { View, Text, Image, StyleSheet } from 'react-native';
 
 import { UniversalButton } from "../../components/atoms";
 import { LinearGradient } from 'expo-linear-gradient';
@@ -13,51 +13,74 @@ const OnboardingScreen: React.FC = () => {
   const handleGetStarted = () => navigation.navigate('Registration');
 
   return (
-    <YStack flex={1} position="relative">
+    <View style={styles.container}>
 
       <LinearGradient
         colors={['#0e162a', '#121835', '#0e162a']}
-        style={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          left: 0,
-          bottom: 0
-        }} />
+        style={styles.gradient} />
 
-      <YStack
-        flex={0.7}
-        width={'100%'}
-        alignItems='center'
-        justifyContent='center'>
+      <View style={styles.imageContainer}>
         <Image
           source={require('../../assets/images/caring.png')}
-          style={{ width: 200, height: 200, alignSelf: 'center' }} />
-      </YStack>
+          style={styles.image} />
+      </View>
 
-      <YStack
-        flex={0.3}
-        alignItems='center'
-        justifyContent='space-evenly'
-        width={'100%'}>
+      <View style={styles.bottomContainer}>
 
-        <H3 color='white' width='80%'>
+        <Text style={styles.title}>
           Your AI companion to help you live a more mindful life
-        </H3>
+        </Text>
 
         <UniversalButton
           onPress={handleGetStarted}
           backgroundColor="#4a73ff"
           textColor="white"
-          size="$5"
+          size={50}
           width={'80%'}
-          borderRadius="$4"
+          borderRadius={8}
           fontWeight="bold">
           Get Started
         </UniversalButton>
-      </YStack>
-    </YStack>
+      </View>
+    </View>
   )
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    position: 'relative',
+  },
+  gradient: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0
+  },
+  imageContainer: {
+    flex: 0.7,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image: {
+    width: 200,
+    height: 200,
+    alignSelf: 'center',
+  },
+  bottomContainer: {
+    flex: 0.3,
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    width: '100%',
+  },
+  title: {
+    color: 'white',
+    width: '80%',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+});
 
 export default OnboardingScreen;

@@ -1,8 +1,6 @@
-import { ReactNode, ComponentType } from "react";
-import { ButtonProps as TamaguiButtonProps} from "tamagui";
+import { ReactNode } from 'react';
+import { TouchableOpacityProps } from 'react-native';
 
-export type UniversalButtonSize   = '$1' | '$2' | '$3' | '$4' | '$5' | '$6';
-export type UniversalSpinnerStyle = string | 'primary' | 'secondary' | 'accent';
 /**
  * @param { ReactNode } children the component's children
  * @param { boolean } isLoading when true, the button will display the loading indicator
@@ -14,13 +12,12 @@ export type UniversalSpinnerStyle = string | 'primary' | 'secondary' | 'accent';
  * @param { string } textColor  The color of the text inside the button
  * @description Props for the Atom Component: **UniversalButton.tsx**
  */
-export interface UniversalButtonProps extends Omit<TamaguiButtonProps, 'children'> {
-  children?:     ReactNode;
-  isLoading?:    boolean;
-  loadingText?:  string;
-  icon?:         ComponentType<{ size?: number; color?: string }>;
-  iconAfter?:    ComponentType<{ size?: number; color?: string }>;
-  size?:         UniversalButtonSize;
-  spinnerColor?: UniversalSpinnerStyle;
-  textColor?:    string;
-};
+
+export interface UniversalButtonProps extends TouchableOpacityProps {
+  children: ReactNode;
+  isLoading?: boolean;
+  loadingText?: string;
+  backgroundColor?: string;
+  spinnerColor?: string;
+  textColor?: string;
+}

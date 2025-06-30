@@ -1,7 +1,6 @@
-import { InputProps as TamaguiInputProps } from 'tamagui';
-import { TextInputProps } from 'react-native';
+import { TextInputProps, ViewProps } from 'react-native';
 
-type FormInputTypes = 'text' | 'email' | 'password' | 'number' | 'phone';
+export type FormInputTypes = 'text' | 'email' | 'password' | 'number';
 
 /**
  * @author George Garcia
@@ -19,19 +18,16 @@ type FormInputTypes = 'text' | 'email' | 'password' | 'number' | 'phone';
  * @param { TextInputProps } inputProps The input props of the input
  * @description Props for the FormInput Atom Component
  */
-export interface FormInputProps extends Omit<TamaguiInputProps, 'onChangeText'> {
-  value:               string;
-  onChangeText:        (text: string) => void;
-  label?:              string;
-  error?:              string;
-  inputType?:          FormInputTypes;
-  showPasswordToggle?: boolean;
-  placeholder?:        string;
-  required?:           boolean;
-  containerProps?:     any;
-  labelColor?:         string;
-  errorColor?:         string;
-  inputProps?:         TextInputProps;
-}
 
-export type InputType = FormInputProps['inputType'];
+export interface FormInputProps extends Omit<TextInputProps, 'onChangeText'> {
+  label?: string;
+  value: string;
+  onChangeText: (text: string) => void;
+  error?: string;
+  inputType?: FormInputTypes;
+  showPasswordToggle?: boolean;
+  required?: boolean;
+  containerProps?: ViewProps;
+  labelColor?: string;
+  errorColor?: string;
+}

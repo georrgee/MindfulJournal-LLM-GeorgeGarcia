@@ -5,5 +5,5 @@ import ThemeProvider from "./ThemeProvider";
 export { 
   AuthContext,
   AuthProvider,
-  ThemeProvider
+  ThemeProvider,
 }
